@@ -1,0 +1,17 @@
+.card{
+    margin: 20px;
+    border-radius: 50px;
+}
+
+.card-body{
+    border-radius: 10px;
+}
+
+.card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+.text-body-secondary{
+    margin-bottom: 0;
+}

@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 10px;
+    font-family: sans-serif;
+    background-color: rgba(218, 229, 247, 0.477) !important;     
+    font-family: Raleway;
+}
+
+.list-title {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.container-table {
+    width: 95%;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    background-color: white;
+    border-radius: 8px;
+}
+
+.fila {
+    height: 70px;
+}
+
+.fila > th,
+.fila > td {
+    vertical-align: middle;
+}
+
+.icon {
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.edit-icon {
+    color: #007bff;
+}
+
+.delete-icon {
+    color: #dc3545;
+}
