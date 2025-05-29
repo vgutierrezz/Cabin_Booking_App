@@ -1,26 +1,41 @@
+import React from 'react';
 import './CardComponent.css';
-import Img1 from './img/cabania1.avif';
-import Img2 from './img/cabania2.jpg';
-import Img3 from './img/cabania3.jpg';
 
-export const CardComponent = () => {
+interface Cabin {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface CardComponentProps {
+  cabins: Cabin[];
+}
+
+export const CardComponent: React.FC<CardComponentProps> = ({ cabins }) => {
+  const groupedCabins = [];
+  for (let i = 0; i < cabins.length; i += 2) {
+    groupedCabins.push(cabins.slice(i, i + 2));
+  }
+
   return (
-    <div className="card-group">
-      {[Img1, Img2, Img3].map((img, index) => (
-        <div key={index} className="card h-100 d-flex flex-column m-2">
-          <img src={img} className="card-img-top" alt={`Hotel ${index + 1}`} />
-          <div className="card-body d-flex flex-column flex-grow-1">
-            <h5 className="card-title">Cabaña {index + 1}</h5>
-            <p className="card-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod.
-            </p>
-            <p className="card-text mt-auto">
-              <small className="text-body-secondary">Última actualización: 3 mins</small>
-            </p>
-          </div>
+    <div className="container">
+      {groupedCabins.map((group, groupIndex) => (
+        <div className="row mb-4" key={groupIndex}>
+          {group.map((cabin) => (
+            <div className="col-md-6 d-flex justify-content-center" key={cabin.id}>
+              <div className="card" >
+                <img src="src\component\Card\img\cabania2.jpg" className="card-img-top" alt={cabin.title} />
+                <div className="card-body">
+                  <h5 className="card-title">{cabin.title}</h5>
+                  <p className="card-text">{cabin.description}</p>
+                  <a href="#" className="btn btn-primary">Ver más</a>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       ))}
     </div>
   );
 };
-

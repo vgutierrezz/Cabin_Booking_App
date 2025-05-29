@@ -4,10 +4,13 @@ import com.proyectofinal.api.model.Category;
 import com.proyectofinal.api.service.impl.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Categories", description = "Gestión de Categorías")
 @RestController
@@ -51,5 +54,9 @@ public class CategoryController {
         return categoryService.findById(id).orElse(null);
     }
 
-
+    @Operation(summary = "Obtener una categoría por su nombre")
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Category> findByName(String name){
+        return ResponseEntity.ok(categoryService.findByName(name).orElse(null));
+    }
 }

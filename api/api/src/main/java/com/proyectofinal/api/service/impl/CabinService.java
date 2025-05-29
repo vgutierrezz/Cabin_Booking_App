@@ -1,13 +1,13 @@
 package com.proyectofinal.api.service.impl;
 
-import com.proyectofinal.api.dto.AddressDTO;
 import com.proyectofinal.api.dto.CabinDTO;
 import com.proyectofinal.api.model.Address;
 import com.proyectofinal.api.model.Cabin;
+import com.proyectofinal.api.model.Category;
 import com.proyectofinal.api.repository.ICabinRepository;
+import com.proyectofinal.api.repository.ICategoryRepository;
 import com.proyectofinal.api.service.ICabinService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,10 +18,12 @@ import java.util.Optional;
 public class CabinService  implements ICabinService {
 
     private ICabinRepository cabinRepository;
+    private ICategoryRepository categoryRepository;
 
     @Autowired
-    public CabinService(ICabinRepository cabinRepository) {
+    public CabinService(ICabinRepository cabinRepository, ICategoryRepository categoryRepository) {
         this.cabinRepository = cabinRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -35,17 +37,22 @@ public class CabinService  implements ICabinService {
                 cabinDTO.getAddress().getProvince(),
                 cabinDTO.getAddress().getCountry()
         );
+        //Busco la categoría por el nombre
+        Optional<Category> categoryEntity = categoryRepository.findByNameIgnoreCase(cabinDTO.getCategoryName());
+
+        //Creo cada ImgCabin
+
         //Creo la cabaña y le asigno la dirección
         Cabin cabinEntity = new Cabin(
                 cabinDTO.getName(),
                 cabinDTO.getDescription(),
                 cabinDTO.getImage(),
                 cabinDTO.getCapacity(),
-                cabinDTO.getRating(),
                 cabinDTO.getPrice(),
                 addressEntity,
-                cabinDTO.getCategoryId()
+                categoryEntity.get()
         );
+
         //Persisto mi entidad Cabaña en la base de datos
         cabinRepository.save(cabinEntity);
 
@@ -56,7 +63,6 @@ public class CabinService  implements ICabinService {
                 cabinEntity.getDescription(),
                 cabinEntity.getImage(),
                 cabinEntity.getCapacity(),
-                cabinEntity.getRating(),
                 cabinEntity.getPrice(),
                 cabinEntity.getAddress().getId(),
                 cabinEntity.getAddress().getStreet(),
@@ -64,7 +70,7 @@ public class CabinService  implements ICabinService {
                 cabinEntity.getAddress().getLocation(),
                 cabinEntity.getAddress().getProvince(),
                 cabinEntity.getAddress().getCountry(),
-                cabinEntity.getCategoryId()
+                cabinEntity.getCategory().getName()
         );
         return cabinDTOResponse;
     }
@@ -85,7 +91,6 @@ public class CabinService  implements ICabinService {
                     cabinWanted.get().getDescription(),
                     cabinWanted.get().getImage(),
                     cabinWanted.get().getCapacity(),
-                    cabinWanted.get().getRating(),
                     cabinWanted.get().getPrice(),
                     cabinWanted.get().getAddress().getId(),
                     cabinWanted.get().getAddress().getStreet(),
@@ -93,7 +98,7 @@ public class CabinService  implements ICabinService {
                     cabinWanted.get().getAddress().getLocation(),
                     cabinWanted.get().getAddress().getProvince(),
                     cabinWanted.get().getAddress().getCountry(),
-                    cabinWanted.get().getCategoryId()
+                    cabinWanted.get().getCategory().getName()
             );
             //Convierto el DTO a Optional para devolverlo al cliente
             cabinDTOResponse =  Optional.of(cabinDTO);
@@ -115,15 +120,16 @@ public class CabinService  implements ICabinService {
             addressEntity.setProvince(cabinDTO.getAddress().getProvince());
             addressEntity.setCountry(cabinDTO.getAddress().getCountry());
 
+            Optional<Category> categoryEntity = categoryRepository.findByNameIgnoreCase(cabinDTO.getCategoryName());
+
             //Seteo la cabaña con los nuevos valores
             cabinEntity.get().setName(cabinDTO.getName());
             cabinEntity.get().setDescription(cabinDTO.getDescription());
             cabinEntity.get().setImage(cabinDTO.getImage());
             cabinEntity.get().setCapacity(cabinDTO.getCapacity());
-            cabinEntity.get().setRating(cabinDTO.getRating());
             cabinEntity.get().setPrice(cabinDTO.getPrice());
             cabinEntity.get().setAddress(addressEntity);
-            cabinEntity.get().setCategoryId(cabinDTO.getCategoryId());
+            cabinEntity.get().setCategory(categoryEntity.get());
 
             //Persisto mi entidad Cabaña en la base de datos
             cabinRepository.save(cabinEntity.get());
@@ -135,7 +141,6 @@ public class CabinService  implements ICabinService {
                     cabinEntity.get().getDescription(),
                     cabinEntity.get().getImage(),
                     cabinEntity.get().getCapacity(),
-                    cabinEntity.get().getRating(),
                     cabinEntity.get().getPrice(),
                     cabinEntity.get().getAddress().getId(),
                     cabinEntity.get().getAddress().getStreet(),
@@ -143,7 +148,7 @@ public class CabinService  implements ICabinService {
                     cabinEntity.get().getAddress().getLocation(),
                     cabinEntity.get().getAddress().getProvince(),
                     cabinEntity.get().getAddress().getCountry(),
-                    cabinEntity.get().getCategoryId()
+                    cabinEntity.get().getCategory().getName()
             );
             return cabinDTOResponse;
         } else {
@@ -179,7 +184,6 @@ public class CabinService  implements ICabinService {
                     cabin.getDescription(),
                     cabin.getImage(),
                     cabin.getCapacity(),
-                    cabin.getRating(),
                     cabin.getPrice(),
                     cabin.getAddress().getId(),
                     cabin.getAddress().getStreet(),
@@ -187,7 +191,39 @@ public class CabinService  implements ICabinService {
                     cabin.getAddress().getLocation(),
                     cabin.getAddress().getProvince(),
                     cabin.getAddress().getCountry(),
-                    cabin.getCategoryId()
+                    cabin.getCategory().getName()
+            );
+            //Agrego a la lista de DTOs
+            cabinDTOList.add(cabinDTO);
+        }
+        return cabinDTOList;
+    }
+
+    @Override
+    public List<CabinDTO> findByCategoryName(String categoryName) {
+        //Traer todas las cabañas de la base de datos
+        List<Cabin> cabinList = cabinRepository.findByCategoryName(categoryName);
+
+        //Creo la lista para devolver
+        List<CabinDTO> cabinDTOList = new ArrayList<>();
+
+        //Recorro la lista obtenido
+        for (Cabin cabin : cabinList) {
+            //Mapeo a DTO
+            CabinDTO cabinDTO = new CabinDTO(
+                    cabin.getId(),
+                    cabin.getName(),
+                    cabin.getDescription(),
+                    cabin.getImage(),
+                    cabin.getCapacity(),
+                    cabin.getPrice(),
+                    cabin.getAddress().getId(),
+                    cabin.getAddress().getStreet(),
+                    cabin.getAddress().getNumber(),
+                    cabin.getAddress().getLocation(),
+                    cabin.getAddress().getProvince(),
+                    cabin.getAddress().getCountry(),
+                    cabin.getCategory().getName()
             );
             //Agrego a la lista de DTOs
             cabinDTOList.add(cabinDTO);

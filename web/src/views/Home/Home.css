@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding-top: 70px;
     font-family: sans-serif;
-    background-color: #c9daf8ff;
+    background-color: #d9ead3;
     font-family: Raleway;
 }
 
@@ -19,12 +19,9 @@ h3 {
     border-radius: 10px;
 }
 
-.buscador-container, .recomendaciones-container{
-    background-color: rgba(218, 229, 247, 0.477);   
-}
 
-.categoria-container{
-    background-color: rgba(223, 222, 222, 0.833);
+.categoria-container, .buscador-container, .recomendaciones-container{
+    background-color: rgb(185, 201, 180);
 }
 
 .card-container{

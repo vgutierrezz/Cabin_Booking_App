@@ -2,14 +2,23 @@ body {
     margin: 0;
     padding: 10px;
     font-family: sans-serif;
-    background-color: rgba(218, 229, 247, 0.477) !important;     
+    background-color: #d9ead3;     
     font-family: Raleway;
 }
 
-.list-title {
-    text-align: center;
-    margin-top: 100px;
-    margin-bottom: 40px;
+.button-new-custom {
+  background-color: rgb(135, 202, 115); /* Madera */
+  color: #ffffff; /* Texto claro */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin: 0 45px 20px 45px;
+}
+
+.button-new-custom:hover {
+  background-color: #4c6731; /* Vegetación / contraste */
 }
 
 .container-table {
@@ -19,6 +28,7 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1); 
     background-color: white;
     border-radius: 8px;
+    margin-bottom: 100px;
 }
 
 .fila {

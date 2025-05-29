@@ -3,6 +3,7 @@ package com.proyectofinal.api.service;
 import com.proyectofinal.api.dto.CabinDTO;
 import com.proyectofinal.api.model.Cabin;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +13,5 @@ public interface ICabinService {
     CabinDTO update(CabinDTO cabinDTO) throws Exception;
     void deleteById(Long id);
     List<CabinDTO> findAll();
+    List<CabinDTO> findByCategoryName(String categoryName);
 }

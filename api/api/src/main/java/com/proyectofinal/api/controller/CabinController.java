@@ -1,12 +1,10 @@
 package com.proyectofinal.api.controller;
 
 import com.proyectofinal.api.dto.CabinDTO;
-import com.proyectofinal.api.model.Cabin;
 import com.proyectofinal.api.service.ICabinService;
 import com.proyectofinal.api.service.impl.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +30,8 @@ public class CabinController {
     public ResponseEntity<CabinDTO> save(@RequestBody CabinDTO cabinDTO){
         ResponseEntity<CabinDTO> response;
         //Verifico si existe la categoría
-        Long categoryId = cabinDTO.getCategoryId();
-        if(categoryService.findById(categoryId).isPresent()){
+        String categoryName = cabinDTO.getCategoryName();
+        if(categoryService.findByName(categoryName).isPresent()){
             //Si existe la categoría, se crea la cabaña y seteamos un codigo 200
             response = ResponseEntity.ok(cabinService.save(cabinDTO));
         }else{
@@ -73,6 +71,13 @@ public class CabinController {
     @GetMapping("/{id}")
     public ResponseEntity<CabinDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(cabinService.findById(id).get());
+    }
+
+    @Operation(summary = "Obtener todas las cabañas de una categoría")
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<List<CabinDTO>> findByCategoryName(@PathVariable String categoryName){
+
+        return ResponseEntity.ok(cabinService.findByCategoryName(categoryName));
     }
 
 }

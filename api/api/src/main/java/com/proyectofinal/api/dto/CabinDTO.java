@@ -1,5 +1,7 @@
 package com.proyectofinal.api.dto;
 
+import java.util.List;
+
 //CLASE PLANA PARA TRANSFERIRIR INFORMACIÓN - NO SE MAPEA A LA BASE
 public class CabinDTO {
     private Long id;
@@ -7,36 +9,32 @@ public class CabinDTO {
     private String description;
     private String image;
     private int capacity;
-    private int rating;
     private int price;
     private AddressDTO address;
-    private Long categoryId;
+    private String categoryName;
 
     public CabinDTO() {
     }
 
-    public CabinDTO(Long id, String name, String description, String image, int capacity, int rating, int price, String street, int number, String location, String province, String country, Long categoryId) {
-        this.id = id;
+    public CabinDTO(String name, String description, String image, int capacity, int price, String street, int number, String location, String province, String country, String categoryName) {
         this.name = name;
         this.description = description;
         this.image = image;
         this.capacity = capacity;
-        this.rating = rating;
         this.price = price;
         this.address = new AddressDTO(street, number, location, province, country);
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
-    public CabinDTO(Long id, String name, String description, String image, int capacity, int rating, int price, Long id_address, String street, int number, String location, String province, String country, Long categoryId) {
+    public CabinDTO(Long id, String name, String description, String image, int capacity, int price, Long id_address, String street, int number, String location, String province, String country, String categoryName) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
         this.capacity = capacity;
-        this.rating = rating;
         this.price = price;
         this.address = new AddressDTO(id_address, street, number, location, province, country);
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
     public Long getId() {
@@ -79,14 +77,6 @@ public class CabinDTO {
         this.capacity = capacity;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -104,11 +94,11 @@ public class CabinDTO {
         this.address = address;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

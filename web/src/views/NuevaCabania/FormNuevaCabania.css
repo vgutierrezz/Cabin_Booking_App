@@ -2,18 +2,29 @@ body {
     margin: 0;
     padding: 10px;
     font-family: sans-serif;
-    background-color: rgba(218, 229, 247, 0.477) !important;     
+    background-color: #d9ead3;     
     font-family: Raleway;
-}
-
-.form-title {
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 40px;
 }
 
 .section-title {
     margin: 20px 0px 10px 5px;
+}
+
+.save-btn-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.button-save-custom {
+  background-color: rgb(107, 200, 79); /* Madera */
+  color: #ffffff; /* Texto claro */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin: 20px 24%;
 }
 
 .form {
@@ -25,10 +36,3 @@ body {
   border-radius: 8px; 
 }
 
-.btn-container {
-  display: flex;
-  justify-content: center;
-}
-.btn-40 {
-  width: 40%;
-}

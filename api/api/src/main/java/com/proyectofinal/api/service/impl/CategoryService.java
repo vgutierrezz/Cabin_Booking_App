@@ -49,4 +49,17 @@ public class CategoryService implements ICategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+
+        Optional<Category> category = categoryRepository.findByNameIgnoreCase(name);
+        if (category.isPresent()) {
+            return category;
+        }else {
+            throw new RuntimeException("Categoria no encontrada");
+        }
+    }
+
+
 }

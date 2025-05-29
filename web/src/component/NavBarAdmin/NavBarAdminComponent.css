@@ -1,8 +1,8 @@
 body {
     margin: 0;
     padding-top: 100px; 
-    font-family: sans-serif;
-    background-color: #c9daf8ff;
+    background-color: #974f1f;
+    font-weight: 600;
 }
 
 .custom-navbar {
@@ -11,7 +11,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: white;
+    background-color: #974f1f;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,6 +40,14 @@ body {
 .logo-text {
     font-size: 0.8rem;
     color: #333;
+}
+
+
+.nav-link.active-link {
+    background-color: #d9ead3ff; 
+    font-weight: bolder;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
 }
 
 .right-section{

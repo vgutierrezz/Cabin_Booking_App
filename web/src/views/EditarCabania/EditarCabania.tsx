@@ -34,6 +34,10 @@ export const EditarCabania = () => {
     const { id } = useParams<{ id: string }>(); // obtener id desde URL
     const navigate = useNavigate();
 
+    const volver = () => {
+        navigate('/administracion/listar-cabanias');
+    };
+
     const [formData, setFormData] = useState<FormData>({
         id: 0,
         name: '',
@@ -147,7 +151,7 @@ export const EditarCabania = () => {
 
         try {
             const response = await fetch('http://localhost:8080/cabins/update', {
-                method: 'PUT', 
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -172,7 +176,10 @@ export const EditarCabania = () => {
         <>
             <NavBarAdminComponent />
             <div className="form-wrapper">
-                <h2 className="form-title">Editar Cabaña</h2>
+                <h2 className="title-custom">Editar Cabaña</h2>
+                <div className='d-flex justify-content-end return-btn-custom'>
+                    <button className='button-return-custom ' onClick={volver}>Volver</button>
+                </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <input
                         name="name"
@@ -269,7 +276,7 @@ export const EditarCabania = () => {
                     />
 
                     <div className="btn-container">
-                        <button type="submit" className="btn btn-primary btn-40">
+                        <button type="submit" className="button-save-custom">
                             Guardar Cambios
                         </button>
                     </div>

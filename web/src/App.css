@@ -1,0 +1,31 @@
+/*IMPORTACIÓN DE LA FUENTE PRINCIPAL*/
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/src/assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/src/assets/fonts/Roboto/Roboto-Italic-VariableFont_wdth\,wght.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/*ESTILOS GLOBALES - Identidad de marca*/
+body {
+    margin: 0;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #d9ead3;
+    color: #2e2e2e;
+}
+
+.title-custom {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #2e2e2e;
+}

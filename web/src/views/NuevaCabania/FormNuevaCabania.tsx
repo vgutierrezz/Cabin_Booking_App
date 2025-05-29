@@ -143,7 +143,7 @@ export const FormNuevaCabania = () => {
         <>
             <NavBarAdminComponent/>
             <div className="form-wrapper">
-                <h2 className="form-title">Nueva Cabaña</h2>
+                <h2 className="title-custom">Nueva Cabaña</h2>
                 <form className="form" onSubmit={handleSubmit}>
 
                     <input name="name" value={formData.name} onChange={handleChange} className="form-control mb-3" placeholder="Nombre" />
@@ -180,7 +180,7 @@ export const FormNuevaCabania = () => {
 
                     {/*BOTÓN GUARDAR */}
                     <div className="btn-container">
-                        <button type="submit" className="btn btn-primary btn-40">
+                        <button type="submit" className="button-save-custom">
                             Guardar Cabaña
                         </button>
                     </div>

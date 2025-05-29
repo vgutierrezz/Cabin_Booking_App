@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './VerCabanias.css';
-import { NavBarAdminComponent } from '../../component/NavBarAdmin/NavBarAdminComponent';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
+import { NavBarAdminComponent } from '../../component/NavBarAdmin/NavBarAdminComponent';
 import { useNavigate } from 'react-router-dom';
 
-{/*ESTA VISTA LISTA TODAS LAS CABAÑAS CARGADAS EN LA BASE DE DATOS */}
+
+{/*ESTA VISTA LISTA TODAS LAS CABAÑAS CARGADAS EN LA BASE DE DATOS */ }
 
 type Address = {
     id?: number;
@@ -33,6 +36,11 @@ export const VerCabanias = () => {
     const [error, setError] = useState<string | null>(null);
 
     const navigate = useNavigate();
+
+    const handleNuevaCabania = () => {
+        navigate('/administracion/nueva-cabania');
+    }
+
 
     useEffect(() => {
         fetch('http://localhost:8080/cabins/list')
@@ -73,7 +81,12 @@ export const VerCabanias = () => {
     return (
         <>
             <NavBarAdminComponent />
-            <h2 className="list-title">Cabañas Publicadas</h2>
+            <h2 className="title-custom">Cabañas Publicadas</h2>
+
+            <div className='d-flex justify-content-end'>
+                <button className='button-new-custom ' onClick={handleNuevaCabania}>Nueva Cabaña</button>
+            </div>
+
             <div className='container-table'>
                 <table className="table table-striped">
                     <thead>
@@ -100,13 +113,20 @@ export const VerCabanias = () => {
                                 </td>
                                 <td className="text-center">
                                     <FaEdit
+                                        id={`edit-${cabaña.id}`}
                                         className="icon edit-icon"
+                                        data-tooltip-content="Editar cabaña"
                                         onClick={() => navigate(`/administracion/editar-cabania/${cabaña.id}`)}
                                     />
+                                    <Tooltip anchorSelect={`#edit-${cabaña.id}`} place="top" />
+
                                     <FaTrash
+                                        id={`delete-${cabaña.id}`}
                                         className="icon delete-icon"
+                                        data-tooltip-content="Eliminar cabaña"
                                         onClick={() => handleDelete(cabaña.id)}
                                     />
+                                    <Tooltip anchorSelect={`#delete-${cabaña.id}`} place="top" />
                                 </td>
 
                             </tr>

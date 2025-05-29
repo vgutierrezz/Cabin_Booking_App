@@ -11,4 +11,5 @@ public interface ICategoryService {
     void update(Category category);
     void deleteById(Long id) throws RuntimeException;
     List<Category> findAll();
+    Optional<Category> findByName(String name);
 }

@@ -10,27 +10,31 @@ public class Cabin {
     private Long id;
     private String name;
     private String description;
+
+    //@Column(mappedBy = "cabin", cascade = CascadeType.ALL, orphanRemoval = true)
     private String image;
+
     private int capacity;
-    private int rating;
     private int price;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Cabin() {
     }
 
-    public Cabin(String name, String description, String image, int capacity, int rating, int price, Address address, Long categoryId) {
+    public Cabin(String name, String description, String image, int capacity, int price, Address address, Category category) {
         this.name = name;
         this.description = description;
+        this.image = image;
         this.capacity = capacity;
-        this.rating = rating;
         this.price = price;
-        this.categoryId = categoryId;
         this.address = address;
+        this.category = category;
     }
 
     public Long getId() {
@@ -73,14 +77,6 @@ public class Cabin {
         this.capacity = capacity;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -97,11 +93,11 @@ public class Cabin {
         this.address = address;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
