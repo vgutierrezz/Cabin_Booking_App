@@ -1,0 +1,17 @@
+body {
+  text-align: center;
+  justify-content: center;
+}
+.detalle-cabana img {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.img-custom {
+  margin-top: 2%;
+  margin-bottom: 1%;
+}
+
+.icono-service {
+  background-color: rgb(107, 200, 79);
+}

@@ -1,5 +1,7 @@
 package com.proyectofinal.api.dto;
 
+import com.proyectofinal.api.model.Address;
+
 public class AddressDTO {
     private Long id;
     private String street;
@@ -26,6 +28,16 @@ public class AddressDTO {
         this.location = location;
         this.province = province;
         this.country = country;
+    }
+
+    //Constructor a partir de una entidad
+    public AddressDTO(Address address) {
+        this.id = address.getId();
+        this.street = address.getStreet();
+        this.number = address.getNumber();
+        this.location = address.getLocation();
+        this.province = address.getProvince();
+        this.country = address.getCountry();
     }
 
     public Long getId() {

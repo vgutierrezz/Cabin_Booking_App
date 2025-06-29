@@ -1,9 +1,23 @@
 package com.proyectofinal.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "Cabins")
+@Table(name = "cabins")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Cabin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,8 +25,8 @@ public class Cabin {
     private String name;
     private String description;
 
-    //@Column(mappedBy = "cabin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private String image;
+    @OneToMany(mappedBy = "cabin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<Image>();
 
     private int capacity;
     private int price;
@@ -20,84 +34,16 @@ public class Cabin {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Category category;
 
-    public Cabin() {
-    }
-
-    public Cabin(String name, String description, String image, int capacity, int price, Address address, Category category) {
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.capacity = capacity;
-        this.price = price;
-        this.address = address;
-        this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "cabania_feature",
+            joinColumns = @JoinColumn(name = "cabania_id"),
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
+    )
+    private Set<Feature> features = new HashSet<>();
 }

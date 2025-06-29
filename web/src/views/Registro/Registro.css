@@ -1,0 +1,29 @@
+form {
+  width: 50%;
+  margin: 0 auto; 
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+  background-color: white; 
+  border-radius: 8px; 
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-center;
+}
+
+small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: #6c757d; /* gris claro, usado comúnmente para texto secundario */
+}
+
+.input-error {
+  border: 1px solid red;
+}
+
+.text-danger {
+  color: red;
+  font-size: 0.875em;
+}

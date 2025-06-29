@@ -1,19 +1,14 @@
 import React from 'react';
-import './CardComponent.css';
+import { Cabin } from '../../models/CabinDTO';
 
-interface Cabin {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
+import './CardComponent.css';
 
 interface CardComponentProps {
   cabins: Cabin[];
 }
 
 export const CardComponent: React.FC<CardComponentProps> = ({ cabins }) => {
-  const groupedCabins = [];
+  const groupedCabins: Cabin[][] = [];
   for (let i = 0; i < cabins.length; i += 2) {
     groupedCabins.push(cabins.slice(i, i + 2));
   }
@@ -24,12 +19,19 @@ export const CardComponent: React.FC<CardComponentProps> = ({ cabins }) => {
         <div className="row mb-4" key={groupIndex}>
           {group.map((cabin) => (
             <div className="col-md-6 d-flex justify-content-center" key={cabin.id}>
-              <div className="card" >
-                <img src="src\component\Card\img\cabania2.jpg" className="card-img-top" alt={cabin.title} />
+              <div className="card">
+                {cabin.images?.map((img, index) => (
+                  <img
+                    key={index}
+                    src={`data:image/jpeg;base64,${img.data}`} 
+                    alt={img.fileName}
+                    className="card-img-top"
+                  />
+                ))}
                 <div className="card-body">
-                  <h5 className="card-title">{cabin.title}</h5>
+                  <h5 className="card-title">{cabin.name}</h5>
                   <p className="card-text">{cabin.description}</p>
-                  <a href="#" className="btn btn-primary">Ver más</a>
+                  <a href="#" className="btn button-verde">Ver más</a>
                 </div>
               </div>
             </div>

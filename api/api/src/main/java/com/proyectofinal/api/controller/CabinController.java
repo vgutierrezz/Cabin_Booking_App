@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,15 +27,15 @@ public class CabinController {
         this.categoryService = categoryService;
     }
 
-    @Operation(summary = "Obtener una cabaña por su id")
-    @PostMapping("/create")
-    public ResponseEntity<CabinDTO> save(@RequestBody CabinDTO cabinDTO){
+    @Operation(summary = "Crear una cabaña con imágenes")
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CabinDTO> save(@RequestPart("cabinDTO") CabinDTO cabinDTO, @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         ResponseEntity<CabinDTO> response;
         //Verifico si existe la categoría
         String categoryName = cabinDTO.getCategoryName();
         if(categoryService.findByName(categoryName).isPresent()){
             //Si existe la categoría, se crea la cabaña y seteamos un codigo 200
-            response = ResponseEntity.ok(cabinService.save(cabinDTO));
+            response = ResponseEntity.ok(cabinService.save(cabinDTO, images));
         }else{
             //Si no existe la categoría, se devuelve un error
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -54,18 +56,22 @@ public class CabinController {
     }
 
     @Operation(summary = "Actualizar una cabaña por su id")
-    @PutMapping("/update")
-    public ResponseEntity<CabinDTO> update(@RequestBody CabinDTO cabinDTO) throws Exception{
-        ResponseEntity<CabinDTO> response;
-        //Verifico si existe la CABAÑA
-        if(cabinService.findById(cabinDTO.getId()).isPresent()){
-            //Seteamos al Response Entity con el código 200 y le agregamos la cabaña DTO como cuerpo de la respuesta
-            response = ResponseEntity.ok(cabinService.update(cabinDTO));
-        }else{
-            response = ResponseEntity.badRequest().build();
+    @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CabinDTO> update(
+            @RequestPart("cabinDTO") CabinDTO cabinDTO,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images
+    ) throws Exception {
+        // Verificar si la cabaña existe
+        if (!cabinService.findById(cabinDTO.getId()).isPresent()) {
+            return ResponseEntity.badRequest().build();
         }
-        return response;
+
+        // Llamar al servicio para actualizar la cabaña con las imágenes (puede ser null)
+        CabinDTO updatedCabin = cabinService.update(cabinDTO, images);
+
+        return ResponseEntity.ok(updatedCabin);
     }
+
 
     @Operation(summary = "Obtener una cabaña por su id")
     @GetMapping("/{id}")
