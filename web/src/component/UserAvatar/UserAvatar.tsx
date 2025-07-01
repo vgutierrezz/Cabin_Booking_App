@@ -1,26 +1,21 @@
-import { jwtDecode } from 'jwt-decode';
+import { useContext } from 'react';
+import { AuthContext } from '../AuthContext/AuthContext';
 
-interface JwtPayload {
-  userName?: string;
-  userEmail?: string;
-}
+import './UserAvatar.css';
 
-const UserAvatar = () => {
-  const token = localStorage.getItem('token');
-  if (!token) return null;
+export function UserAvatar() {
+  const { user } = useContext(AuthContext);
+  if (!user) return null;
 
-  const decoded = jwtDecode<JwtPayload>(token);
-  const name = decoded.userName || decoded.userEmail || '';
-  const initials = name
-    .split(' ')
-    .map(w => w[0]?.toUpperCase())
-    .join('')
-    .slice(0, 2);
+  const { firstName, lastName } = user;
+  const initials = `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
 
   return (
     <div className="d-flex align-items-center gap-2">
+      <span className='user-name'>¡Hola, {firstName}!</span>
       <div className="avatar-circle">{initials}</div>
-      <span>{name}</span>
     </div>
   );
-};
+}
+
+

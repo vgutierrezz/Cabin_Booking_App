@@ -25,11 +25,12 @@ public class Cabin {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "cabin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cabin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> images = new ArrayList<Image>();
 
-    private int capacity;
-    private int price;
+    private Integer capacity;
+    private Integer price;
+    private Integer rating;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;

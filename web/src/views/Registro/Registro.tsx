@@ -91,9 +91,9 @@ export const Registro = () => {
 
             if (response.ok) {
                 alert('Registro exitoso');
-                if(token && user){
+                if (token && user) {
                     navigate('/administracion/listar-usuarios');
-                }else {
+                } else {
                     navigate('/auth/login');
                 }
             } else {
@@ -109,7 +109,9 @@ export const Registro = () => {
 
     return (
         <div className="form-wrapper">
-            <h2 className="title-custom">Nuevo Usuario</h2>
+            <div className="title-container">
+                <h1 className="title-custom">Registrarse</h1>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="firstNameRegister" className="form-label">Nombre:</label>

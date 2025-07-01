@@ -7,6 +7,7 @@ import com.proyectofinal.api.service.IFeatureService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FeatureService implements IFeatureService {
@@ -15,6 +16,12 @@ public class FeatureService implements IFeatureService {
 
     public FeatureService(IFeatureRepository featureRepository) {
         this.featureRepository = featureRepository;
+    }
+
+    @Override
+    public Optional<FeatureDTO> findById(Long id) {
+        return featureRepository.findById(id)
+                .map(f -> new FeatureDTO(f.getId(), f.getName()));
     }
 
     @Override

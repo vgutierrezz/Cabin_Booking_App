@@ -19,16 +19,20 @@ public class DataInitializer implements CommandLineRunner {
     private final IUserRepository userRepository;
     private final IFeatureRepository featureRepository;
     private final PasswordEncoder passwordEncoder;
+    private final IFavoritesRepository favoritesRepository;
+    private final IBookingRepository bookingRepository;
 
     public DataInitializer(ICategoryRepository categoryRepository, ICabinRepository cabinRepository,
                            IImageRepository imageRepository, IUserRepository userRepository, IFeatureRepository featureRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, IFavoritesRepository favoritesRepository, IBookingRepository bookingRepository) {
         this.categoryRepository = categoryRepository;
         this.cabinRepository = cabinRepository;
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
         this.featureRepository = featureRepository;
         this.passwordEncoder = passwordEncoder;
+        this.favoritesRepository = favoritesRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     private byte[] loadImage(String filename) {
@@ -77,13 +81,19 @@ public class DataInitializer implements CommandLineRunner {
 
             if (featureRepository.count() == 0) {
                 List<String> nombresFeatures = List.of(
-                        "Cocina",
-                        "Televisor",
-                        "Apto Mascotas",
-                        "Aire acondicionado",
-                        "Estacionamiento",
-                        "Pileta",
-                        "WiFi"
+                        "wifi",
+                        "aire",
+                        "mascota",
+                        "pileta",
+                        "tv",
+                        "estacionamiento",
+                        "desayuno",
+                        "parrilla",
+                        "calefaccion",
+                        "cocina",
+                        "balcón",
+                        "jardin",
+                        "seguridad"
                 );
 
                 for (String nombre : nombresFeatures) {
@@ -201,7 +211,7 @@ public class DataInitializer implements CommandLineRunner {
             for (Cabin c : cabins) {
                 // Selecciono de 2 a 4 características aleatorias
                 Set<Feature> selectedFeatures = new HashSet<>();
-                int featureCount = 2 + random.nextInt(3); // entre 2 y 4
+                int featureCount = 3 + random.nextInt(10);
                 while (selectedFeatures.size() < featureCount) {
                     Feature randomFeature = allFeatures.get(random.nextInt(allFeatures.size()));
                     selectedFeatures.add(randomFeature);
@@ -222,7 +232,43 @@ public class DataInitializer implements CommandLineRunner {
 
                 imageIndex++;
             }
+            // GUARDO ALGUNAS CABAÑAS EN FAV PARA ROLE_USER
+            Optional<User> userOpt = userRepository.findByEmail("usuario@email.com");
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+
+                List<Cabin> allCabins = cabinRepository.findAll();
+                if (allCabins.size() >= 3) {
+                    for (int i = 0; i < 3; i++) {
+                        Cabin cabin = allCabins.get(i);
+                        if (!favoritesRepository.existsByUserAndCabin(user, cabin)) {
+                            Favorite favorite = Favorite.builder()
+                                    .user(user)
+                                    .cabin(cabin)
+                                    .build();
+                            favoritesRepository.save(favorite);
+                        }
+                    }
+                    System.out.println("3 cabañas favoritas asignadas al usuario.");
+                    // AGREGAR UNA RESERVA FINALIZADA PARA EL USUARIO ROLE_USER
+                    if (cabins.size() >= 1) {
+                        Cabin finishedCabin = cabins.get(5); // primera cabaña
+                        Booking finishedBooking = Booking.builder()
+                                .cabin(finishedCabin)
+                                .user(user)
+                                .startDate(java.time.LocalDate.of(2024, 5, 1))
+                                .endDate(java.time.LocalDate.of(2024, 5, 10))
+                                .build();
+                        bookingRepository.save(finishedBooking);
+                        System.out.println("Reserva finalizada creada para usuario rol USER en cabaña id " + finishedCabin.getId());
+                    }
+                } else {
+                    System.out.println("No hay suficientes cabañas para asignar favoritos.");
+                }
+            }
+
 
         }
+
     }
 }

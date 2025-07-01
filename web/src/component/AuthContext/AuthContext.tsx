@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface User {
-  firstname: string;
-  lastname: string;
+  id: number;
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
@@ -56,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
   const login = (newToken: string, role: string, newUser: User) => {
+    console.log('Login called with:', { newToken, role, newUser });
     localStorage.setItem('authToken', newToken);
     localStorage.setItem('userRole', role);
     localStorage.setItem('user', JSON.stringify(newUser));

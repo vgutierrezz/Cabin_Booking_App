@@ -1,5 +1,7 @@
 package com.proyectofinal.api.service.impl;
 
+import com.proyectofinal.api.dto.CategoryDTO;
+import com.proyectofinal.api.dto.FeatureDTO;
 import com.proyectofinal.api.model.Category;
 import com.proyectofinal.api.repository.ICategoryRepository;
 import com.proyectofinal.api.service.ICategoryService;
@@ -26,8 +28,9 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public Optional<CategoryDTO> findById(Long id) {
+        return categoryRepository.findById(id)
+                .map(category -> new CategoryDTO(category.getId(), category.getName(), category.getDescription()));
     }
 
     @Override
@@ -37,28 +40,26 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void deleteById(Long id) throws RuntimeException {
-        Optional<Category> categoryWanted = findById(id);
-        if(categoryWanted.isPresent()){
+        Optional<CategoryDTO> categoryWanted = findById(id);
+        if (categoryWanted.isPresent()) {
             categoryRepository.deleteById(id);
-        }else {
+        } else {
             throw new RuntimeException("Categoria no encontrada");
         }
     }
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDTO> findAll() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(c -> new CategoryDTO(c.getId(), c.getName(), c.getDescription()))
+                .toList();
     }
 
     @Override
-    public Optional<Category> findByName(String name) {
-
-        Optional<Category> category = categoryRepository.findByNameIgnoreCase(name);
-        if (category.isPresent()) {
-            return category;
-        }else {
-            throw new RuntimeException("Categoria no encontrada");
-        }
+    public Optional<CategoryDTO> findByName(String name) {
+        return categoryRepository.findByNameIgnoreCase(name)
+                .map(category -> new CategoryDTO(category.getId(), category.getName(), category.getDescription()));
     }
 
 

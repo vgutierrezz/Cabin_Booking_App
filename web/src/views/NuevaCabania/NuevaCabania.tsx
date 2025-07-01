@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../component/AuthContext/AuthContext';
 import { CabinForm } from '../../component/CabinForm/CabinForm';
 
-export const FormNuevaCabania = () => {
+
+export const NuevaCabania = () => {
     const { token } = useContext(AuthContext);
 
     const handleCreateCabin = async (formData: FormData) => {
@@ -30,7 +31,9 @@ export const FormNuevaCabania = () => {
     return (
 
         <>
-            <h2 className="title-custom">Nueva Cabaña</h2>
+            <div className="title-container">
+                <h1 className="title-custom">Nueva Cabaña</h1>
+            </div>
             <CabinForm
                 onSubmit={handleCreateCabin}
                 submitLabel="Guardar Cabaña"

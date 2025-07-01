@@ -132,7 +132,9 @@ export const VerUsuarios = () => {
 
     return (
         <>
-            <h2 className="title-custom">Lista de Usuarios</h2>
+            <div className="title-container">
+                <h1 className="title-custom">Usuarios Registrados</h1>
+            </div>
 
             {/* Botón Nuevo Usuario */}
             <div className='d-flex justify-content-end button-container'>

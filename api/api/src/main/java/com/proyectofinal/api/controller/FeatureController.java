@@ -4,6 +4,7 @@ import com.proyectofinal.api.dto.FeatureDTO;
 import com.proyectofinal.api.model.Feature;
 import com.proyectofinal.api.service.impl.FeatureService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,11 @@ public class FeatureController {
 
     public FeatureController(FeatureService featureService) {
         this.featureService = featureService;
+    }
+
+    @GetMapping("/{id}")
+    public FeatureDTO findById(@PathVariable Long id) {
+        return featureService.findById(id).orElse(null);
     }
 
     @GetMapping("/list")

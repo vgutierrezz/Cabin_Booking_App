@@ -96,7 +96,9 @@ export const VerCabanias = () => {
     
     return (
         <>
-            <h2 className="title-custom">Lista de Productos</h2>
+            <div className="title-container">
+                <h1 className="title-custom">Cabañas Publicadas</h1>
+            </div>
 
             {/* Botón Nueva Cabaña */}
             <div className='d-flex justify-content-end button-container'>

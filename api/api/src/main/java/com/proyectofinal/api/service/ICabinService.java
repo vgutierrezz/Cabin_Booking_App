@@ -15,4 +15,6 @@ public interface ICabinService {
     void deleteById(Long id);
     List<CabinDTO> findAll();
     List<CabinDTO> findByCategoryName(String categoryName);
+    List<CabinDTO> findByKeyword(String keyword);
+    Cabin getCabinEntityById(Long id);
 }

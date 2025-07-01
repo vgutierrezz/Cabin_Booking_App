@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface IFeatureRepository extends JpaRepository<Feature, Long> {
     Optional<Feature> findByName(String name);
+
+    Long id(Long id);
 }
 

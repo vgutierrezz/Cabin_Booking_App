@@ -1,8 +1,7 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../AuthContext/AuthContext';
-
-import imgLogo from './img/logo.png';
+import { UserAvatar } from '../UserAvatar/UserAvatar';
 
 import './HeaderComponent.css';
 
@@ -27,7 +26,7 @@ export const HeaderComponent = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <Link to="/home" className="navbar-brand">
-            <img src={imgLogo} alt="logo" className="logo" />
+            <img src="/src/assets/img/logo.png" alt="logo" className="logo" />
             <span className="logo-text align-self-end">Momentos únicos en lugares únicos</span>
           </Link>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -41,7 +40,30 @@ export const HeaderComponent = () => {
                 Inicio
               </NavLink>
             </li>
-
+            {normalizedRole === 'USER' && (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to="/usuario/favoritos"
+                    className={({ isActive }) =>
+                      isActive ? 'nav-link active-link' : 'nav-link'
+                    }
+                  >
+                    Favoritos
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="usuario/historial"
+                    className={({ isActive }) =>
+                      isActive ? 'nav-link active-link' : 'nav-link'
+                    }
+                  >
+                    Historial
+                  </NavLink>
+                </li>
+              </>
+            )}
             {normalizedRole === 'ADMIN' && (
               <>
                 <li className="nav-item">
@@ -78,11 +100,14 @@ export const HeaderComponent = () => {
             )}
           </ul>
 
-          <div className="right-section">
+          <div className="right-section" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             {isLoggedIn ? (
-              <button className="btn btn-custom" onClick={logout}>
-                Cerrar sesión
-              </button>
+              <>
+                <UserAvatar />
+                <button className="btn btn-custom" onClick={logout}>
+                  Cerrar sesión
+                </button>
+              </>
             ) : (
               <>
                 <Link to="/auth/register" className="btn btn-custom">

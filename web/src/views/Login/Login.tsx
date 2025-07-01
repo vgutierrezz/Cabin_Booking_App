@@ -100,7 +100,9 @@ export const Login = () => {
 
     return (
         <div className="form-wrapper">
-            <h2 className="title-custom">Ingresar</h2>
+            <div className="title-container">
+          <h1 className="title-custom">Iniciar Sesión</h1>
+        </div>
 
             <form onSubmit={handleSubmit}>
                 {generalError && (
@@ -155,7 +157,13 @@ export const Login = () => {
                     </small>
                 </div>
                 <div className="btn-container">
-                    <button type="submit" className="btn button-verde" disabled={isLoading}>Ingresar</button>
+                    <button
+    type="submit"
+    className="btn button-verde"
+    disabled={isLoading}
+>
+    Ingresar
+</button>
                 </div>
             </form>
         </div>

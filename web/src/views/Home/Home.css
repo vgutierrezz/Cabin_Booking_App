@@ -1,29 +1,76 @@
 body {
-    margin: 0;
-    padding-top: 70px;
-    font-family: sans-serif;
-    background-color: #d9ead3;
-    font-family: Raleway;
+  margin: 0;
+  padding-top: 70px;
+  font-family: sans-serif;
+  background-color: #d9ead3;
+  font-family: Raleway;
 }
 
 h3 {
-    margin-top: 0;
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.684);
+  margin-top: 0;
+  font-weight: 600;
+  color: rgba(46, 46, 46, 0.8);
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid #6bc84f;
+  padding-bottom: 0.3rem;
+  max-width: fit-content;
+  margin-left: 2rem;
+  /* izquierda */
+  margin-right: auto;
+  /* no centrar */
+  text-align: left;
 }
 
-.buscador-container, .categoria-container, .recomendaciones-container{
-    padding: 10px 20px;
-    margin: 20px 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+.buscador-container,
+.categoria-container,
+.recomendaciones-container {
+  padding: clamp(0.5rem, 2vw, 1.5rem);
+  margin: clamp(1rem, 3vw, 2rem) auto;
+  max-width: 100%;
+  width: min(95%, 1200px);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.224);
+  border-radius: 0.75rem;
+  background-color: #fff;
 }
 
-
-.categoria-container, .buscador-container, .recomendaciones-container{
-    background-color: rgb(185, 201, 180);
+.categoria-container,
+.buscador-container,
+.recomendaciones-container {
+  background-color: rgb(185, 201, 180);
 }
 
-.card-container{
-    
+.subtitle-custom {
+  justify-content: center;
+}
+
+.button-container {
+  display: flex !important;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.button-ver-todas {
+  padding: 0.5rem 1rem;
+  background-color: #87ca73;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-ver-todas:hover {
+  background-color: rgb(85, 160, 60);
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.no-results-text {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #444;
+  margin: 2rem 0;
 }

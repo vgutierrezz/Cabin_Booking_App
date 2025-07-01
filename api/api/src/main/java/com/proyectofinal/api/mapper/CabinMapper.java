@@ -1,8 +1,6 @@
 package com.proyectofinal.api.mapper;
 
-import com.proyectofinal.api.dto.AddressDTO;
-import com.proyectofinal.api.dto.CabinDTO;
-import com.proyectofinal.api.dto.ImageDTO;
+import com.proyectofinal.api.dto.*;
 import com.proyectofinal.api.model.*;
 import com.proyectofinal.api.repository.ICategoryRepository;
 import com.proyectofinal.api.repository.IFeatureRepository;
@@ -32,15 +30,17 @@ public class CabinMapper {
         );
 
         //Busco la categoría por el nombre
-        Optional<Category> categoryEntity = categoryRepository.findByNameIgnoreCase(dto.getCategoryName());
+        Optional<Category> categoryEntity = categoryRepository.findByNameIgnoreCase(dto.getCategory().getName());
 
         Cabin cabin = new Cabin();
         cabin.setName(dto.getName());
         cabin.setDescription(dto.getDescription());
         cabin.setCapacity(dto.getCapacity());
         cabin.setPrice(dto.getPrice());
+        cabin.setRating(dto.getRating());
         cabin.setAddress(addressEntity);
-        cabin.setCategory(categoryEntity.get());
+        cabin.setCategory(categoryEntity.orElseThrow(() -> new RuntimeException("Categoría no encontrada")));
+
         List<Image> images = new ArrayList<>();
         if (dto.getImageFiles() != null) {
             images = dto.getImageFiles().stream()
@@ -53,15 +53,13 @@ public class CabinMapper {
                     })
                     .collect(Collectors.toList());
         }
-
         cabin.setImages(images);
 
-        // Busco las caracteristicas
+        // Características
         Set<Feature> features = dto.getFeatures().stream()
-                .map(name -> featureRepository.findByName(name)
-                        .orElseGet(() -> featureRepository.save(new Feature(null, name, new HashSet<>())))
+                .map(featureDto -> featureRepository.findByName(featureDto.getName())
+                        .orElseGet(() -> featureRepository.save(new Feature(null, featureDto.getName(), new HashSet<>())))
                 ).collect(Collectors.toSet());
-
         cabin.setFeatures(features);
 
         return cabin;
@@ -75,6 +73,9 @@ public class CabinMapper {
         dto.setDescription(cabin.getDescription());
         dto.setCapacity(cabin.getCapacity());
         dto.setPrice(cabin.getPrice());
+        dto.setRating(cabin.getRating());
+        dto.setCategory(new CategoryDTO(cabin.getCategory().getId(), cabin.getCategory().getName(), cabin.getCategory().getDescription()));
+
         dto.setImages(
                 cabin.getImages().stream()
                         .map(ImageDTO::new)
@@ -84,9 +85,9 @@ public class CabinMapper {
                 new AddressDTO(cabin.getAddress())
         );
         dto.setFeatures(cabin.getFeatures()
-                        .stream()
-                        .map(Feature::getName)
-                        .collect(Collectors.toSet())
+                .stream()
+                .map(f -> new FeatureDTO(f.getId(), f.getName()))
+                .collect(Collectors.toList())
         );
         return dto;
     }
@@ -97,6 +98,7 @@ public class CabinMapper {
         cabin.setDescription(dto.getDescription());
         cabin.setCapacity(dto.getCapacity());
         cabin.setPrice(dto.getPrice());
+        cabin.setRating(dto.getRating());
 
         // Dirección
         Address address = cabin.getAddress();
@@ -111,7 +113,7 @@ public class CabinMapper {
         cabin.setAddress(address);
 
         // Categoría
-        Category category = categoryRepository.findByNameIgnoreCase(dto.getCategoryName())
+        Category category = categoryRepository.findByNameIgnoreCase(dto.getCategory().getName())
                 .orElseThrow(() -> new Exception("Categoría no encontrada"));
         cabin.setCategory(category);
 
@@ -122,9 +124,10 @@ public class CabinMapper {
 
         // Características
         Set<Feature> features = dto.getFeatures().stream()
-                .map(name -> featureRepository.findByName(name)
-                        .orElseGet(() -> featureRepository.save(new Feature(null, name, new HashSet<>())))
-                ).collect(Collectors.toSet());
+                .map(featureDTO -> featureRepository.findById(featureDTO.getId())
+                        .orElseThrow(() -> new RuntimeException("Feature no encontrada con id: " + featureDTO.getId())))
+                .collect(Collectors.toSet());
+
         cabin.setFeatures(features);
 
         return cabin;

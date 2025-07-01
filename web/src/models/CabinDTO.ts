@@ -5,9 +5,11 @@ export interface Cabin {
     capacity: number;
     rating: number;
     price: number;
+    favorite: boolean;
     images: Image[];
     address: Address;
-    categoryId: number;
+    category: Category;
+    features: Feature[];
 };
 
 export interface Address {
@@ -20,6 +22,18 @@ export interface Address {
 };
 
 export interface Image {
+    id: number,
     fileName: string,
     data: string
+}
+
+export type Category = {
+    id: number;
+    name: string;
+    description: string;
+};
+
+export interface Feature {
+    id: number,
+    name: string
 }

@@ -60,7 +60,9 @@ export const EditarCabania = () => {
 
   return (
     <>
-      <h1>Editar Cabaña</h1>
+      <div className="title-container">
+        <h1 className="title-custom title-underline">Editar Cabaña</h1>
+      </div>
       <CabinForm
         initialData={cabinData}
         onSubmit={handleUpdate}

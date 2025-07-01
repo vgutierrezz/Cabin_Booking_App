@@ -19,11 +19,22 @@ public class ImageService implements IImageService {
         this.imageRepository = imageRepository;
     }
 
+    @Override
     public Image saveImage(MultipartFile file, Cabin cabin) throws IOException {
         Image image = new Image();
         image.setFileName(file.getOriginalFilename());
         image.setData(file.getBytes());
         image.setCabin(cabin);
         return imageRepository.save(image);
+    }
+
+    @Override
+    public Image getImageById(Long id) {
+        return  imageRepository.getImageById(id);
+    }
+
+    @Override
+    public void deleteById(Long imageId) {
+        imageRepository.deleteById(imageId);
     }
 }

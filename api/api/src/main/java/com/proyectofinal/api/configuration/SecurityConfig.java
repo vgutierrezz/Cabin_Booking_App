@@ -33,20 +33,26 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/auth/**",
-                            "/cabins/list",
-                            "/cabins/{id}",
-                            "/categories/list",
-                            "/cabins/category/{categoryName}",
-                            "/h2-console/**")
-                    .permitAll()
-                    .requestMatchers(
-                            "/cabins/**",
-                            "/users/**",
-                            "/features/**"
-                    ).hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/cabins/list",
+                                "/cabins/{id}",
+                                "/cabins/search",
+                                "/cabins/search/**",
+                                "/categories/list",
+                                "/cabins/category/{categoryName}",
+                                "/h2-console/**")
+                        .permitAll()
+                        .requestMatchers(
+                                "/favorites/**",
+                                "/bookings/**"
+                        ).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(
+                                "/cabins/**",
+                                "/users/**",
+                                "/features/**"
+                        ).hasRole("ADMIN")
+                        .anyRequest().authenticated()
 
                 )
                 .sessionManagement(sess -> sess

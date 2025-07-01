@@ -1,0 +1,112 @@
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #658a41;
+  box-shadow: 0 0 0 2px rgba(101, 138, 65, 0.2);
+}
+
+.clear-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+}
+
+.clear-button:hover {
+  color: #000;
+}
+
+.search-button {
+  background-color: #87ca73;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  background-color: #506d33;
+}
+
+@media (max-width: 576px) {
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.no-results-text {
+  text-align: center;
+  margin-top: 2rem;
+  color: #2e2e2e;
+}
+
+.confirm-btn {
+  background: #87ca73;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.cancel-btn {
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.success {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.error {
+  color: #c62828;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

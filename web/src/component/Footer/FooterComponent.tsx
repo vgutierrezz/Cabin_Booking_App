@@ -1,12 +1,11 @@
-import './FooterComponent.css';
-import logo from '../../assets/img/logo.png'; // Asegurate de tener la ruta correcta al logo
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import './FooterComponent.css';
 
 export const FooterComponent = () => {
   return (
     <footer className="footer">
       <div className="footer-left">
-        <img src={logo} alt="Logo" className="footer-logo" />
+        <img src="/src/assets/img/logo.png" alt="Logo" className="footer-logo" />
         <span>© {new Date().getFullYear()} Entre Cabañas. Todos los derechos reservados.</span>
       </div>
       <div className="footer-right">

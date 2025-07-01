@@ -1,6 +1,7 @@
 package com.proyectofinal.api.controller;
 
 import com.proyectofinal.api.dto.CabinDTO;
+import com.proyectofinal.api.dto.CategoryDTO;
 import com.proyectofinal.api.service.ICabinService;
 import com.proyectofinal.api.service.impl.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,10 +31,12 @@ public class CabinController {
     @Operation(summary = "Crear una cabaña con imágenes")
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CabinDTO> save(@RequestPart("cabinDTO") CabinDTO cabinDTO, @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+        System.out.println("Recibí cabaña: " + cabinDTO.getName());
+        System.out.println("Cantidad imágenes recibidas: " + (images == null ? 0 : images.size()));
         ResponseEntity<CabinDTO> response;
         //Verifico si existe la categoría
-        String categoryName = cabinDTO.getCategoryName();
-        if(categoryService.findByName(categoryName).isPresent()){
+        CategoryDTO category = cabinDTO.getCategory();
+        if(categoryService.findByName(category.getName()).isPresent()){
             //Si existe la categoría, se crea la cabaña y seteamos un codigo 200
             response = ResponseEntity.ok(cabinService.save(cabinDTO, images));
         }else{
@@ -76,7 +79,9 @@ public class CabinController {
     @Operation(summary = "Obtener una cabaña por su id")
     @GetMapping("/{id}")
     public ResponseEntity<CabinDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok(cabinService.findById(id).get());
+        return cabinService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Obtener todas las cabañas de una categoría")
@@ -84,6 +89,12 @@ public class CabinController {
     public ResponseEntity<List<CabinDTO>> findByCategoryName(@PathVariable String categoryName){
 
         return ResponseEntity.ok(cabinService.findByCategoryName(categoryName));
+    }
+
+    @Operation(summary = "Obtener todas las cabañas que coinciden con la búsqueda")
+    @GetMapping("/search")
+    public ResponseEntity<List<CabinDTO>> findByKeyword(@RequestParam String keyword){
+        return ResponseEntity.ok(cabinService.findByKeyword(keyword));
     }
 
 }

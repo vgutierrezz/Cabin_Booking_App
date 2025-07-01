@@ -1,9 +1,11 @@
 package com.proyectofinal.api.dto;
 
 import com.proyectofinal.api.model.Image;
+import lombok.Data;
 
 import java.util.Base64;
 
+@Data
 public class ImageDTO {
     private Long id;
     private String fileName;
