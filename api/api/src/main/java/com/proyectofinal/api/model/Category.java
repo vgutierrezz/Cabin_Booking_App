@@ -1,11 +1,14 @@
 package com.proyectofinal.api.model;
 
+import jakarta.annotation.Resource;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.List;
 
 @Entity
 @Table(name = "Categories")
+@Builder
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,7 @@ public class Category {
         this.name = name;
         this.description = description;
     }
+
 
     public Long getId() {
         return id;
