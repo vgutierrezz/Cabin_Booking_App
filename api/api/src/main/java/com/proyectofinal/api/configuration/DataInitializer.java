@@ -55,7 +55,7 @@ public class DataInitializer implements CommandLineRunner {
         // CREAR USUARIO ADMIN SI NO EXISTE
         if (userRepository.findByEmail("admin@email.com").isEmpty()) {
             User admin = new User();
-            admin.setFirstName("Nombre");
+            admin.setFirstName("Admin");
             admin.setLastName("Apellido");
             admin.setEmail("admin@email.com");
             admin.setPassword(passwordEncoder.encode("admin123"));
