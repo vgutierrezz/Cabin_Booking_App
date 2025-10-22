@@ -56,4 +56,4 @@ Plataforma web para la **gestión y reserva de cabañas turísticas**.
 ## 🚀 Cómo ejecutar el proyecto
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/vgutierrezz/Cabin-Booking-App-Full-Stack-React-Spring-Boot.git
+   git clone https://github.com/vgutierrezz/Cabin_Booking_App.git
