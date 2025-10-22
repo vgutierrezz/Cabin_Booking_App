@@ -14,6 +14,13 @@ Plataforma web para la **gestión y reserva de cabañas turísticas**.
 **Otros:** JWT (autenticación), SMTP (envío de emails)
 
 ---
+### Home
+![Home](./docs/Inicio.png)
+
+### Video Vista de Usuario
+[Ver demo en YouTube](https://youtu.be/rSPA6i2iau0)
+
+---
 
 ## 👤 Usuarios de prueba
 | Usuario | Contraseña | Rol |
